@@ -1,5 +1,6 @@
-gsap.registerPlugin(SplitText) 
-
+gsap.registerPlugin(SplitText); 
+gsap.registerPlugin(ScrollTrigger); 
+gsap.registerPlugin(DrawSVGPlugin);
 
 
 //to display time
@@ -123,26 +124,76 @@ document.body.style.height = '100vh';
 document.body.style.width = '100vw';
 
 window.addEventListener("load", ()=> {
-    document.body.style.overflow = '';  //removing the settings when the when page is loaded.
-    document.body.style.height = '';
-    document.body.style.width = '';
+    document.fonts.ready.then( ()=> {
+        document.body.style.overflow = '';  //removing the settings when the when page is loaded.
+        document.body.style.height = '';
+        document.body.style.width = '';
 
-    loaderTL.pause();
-    HeroSplit = new SplitText('.hero-text-reveal', {type: 'lines', autoSplit: true,  mask: "lines"});
-    DesSplit = new SplitText('.desc', {type: 'chars, words'});
-    DesSplit.chars.forEach(char => {
-        char.classList.add('square-peg-regular')
-    })
+        loaderTL.pause();
+        const HeroSplit = new SplitText('.hero-text-reveal', {type: 'lines', autoSplit: true,  mask: "lines"});
+        const DesSplit = new SplitText('.desc', {type: 'chars, words'});
+        DesSplit.chars.forEach(char => {
+            char.classList.add('square-peg-regular')  //makming sure that the sqaure peg font is applied to the text as per the design.
+        })
 
     
 
-    heroTL = gsap.timeline();
-    heroTL.to(".loading-element", {top: -100, duration: 1, ease: "power4.inOut"})
-          .to(".loading-screen", {zIndex: -8000, duration: 1, delay: -0.7, ease: "power4.inOut"})
-          .from(".bg-box", {yPercent: -100, opacity:0, duration: 1, stagger:0.1, ease: "power3.inOut"}, "<")
-          .from (HeroSplit.lines, {yPercent: 100, duration:0.4, delay: -0.8, stagger: 0.3})
-          .to(".my_image", {yPercent: 0, opacity: 1, duration: 1.2, delay: -1, ease: "power1.in"})
-          .from(DesSplit.chars, {opacity:0, duration: 0.1, stagger:0.05})
-          .to(".loading-screen", {opacity: 0}, "<")
+        heroTL = gsap.timeline();  //hero section entrance animation
+        heroTL.to(".loading-element", {top: -100, duration: 1, ease: "power4.inOut"})
+            .to(".loading-screen", {zIndex: -8000, duration: 1, delay: -0.7, ease: "power4.inOut"})
+            .from(".bg-box", {yPercent: -100, opacity:0, duration: 1, stagger:0.1, ease: "power3.inOut"}, "<")
+            .from (HeroSplit.lines, {yPercent: 100, duration:0.4, delay: -0.8, stagger: 0.3})
+            .to(".my_image", {yPercent: 0, opacity: 1, duration: 1.2, delay: -1, ease: "power1.in"})
+            .from(DesSplit.chars, {opacity:0, duration: 0.1, stagger:0.05})
+            .to(".loading-screen", {opacity: 0}, "<")
+
+
+
+        const pegHeaders = gsap.utils.toArray('.square-peg-header');
+
+        //animation of headers with the square-peg font
+        pegHeaders.forEach(pegHeader=> {
+           const pegHeaderSplit = new SplitText(pegHeader, {type: 'chars, words'});
+            pegHeaderSplit.chars.forEach(char => {
+            char.classList.add('square-peg-regular')  //makming sure that the sqaure peg font is applied to the text as per the design.
+            })
+
+            gsap.from(pegHeaderSplit.chars, {scrollTrigger: {trigger: pegHeader, start: "top 70%"}, opacity:0, duration: 0.1, stagger:0.05 })
+        })
+
+        //my recent projects 
+
+        const sectionHeaders = gsap.utils.toArray('.section-header');
+        sectionHeaders.forEach(sectionHeader=> {
+           const sectionHeaderSplit = new SplitText(sectionHeader, {type: 'chars, words', mask: "words"});
+
+           gsap.from(sectionHeaderSplit.chars, {scrollTrigger: {trigger: sectionHeader, start: "top 80%"}, yPercent: 100, duration: 1, opacity:0, stagger:0.06, ease: "expo.out"})
+        })
+
+        const projects = gsap.utils.toArray('.project');
+        projects.forEach((project, i)=> {
+           gsap.from(project, {yPercent: 3, opacity:0, scrollTrigger: {trigger: project, start: "top 70%"}, duration: 1, delay: (window.innerWidth > 1023 ?i % 2 === 0 ? 0 : 0.3: 0), ease: "power4.out"})
+        })
+
+        // projectsDisplayTL = gsap.timeline({scrollTrigger: {trigger: '.for_resume'}})
+
+        
+        //resume svg animation
+        resumeTextSplit = new SplitText('.need-my-resume', {type: 'chars, words'});
+        resumeTextSplit.chars.forEach(char => {
+            char.classList.add('square-peg-regular')  //making sure that the sqaure peg font is applied to the text as per the design.
+        })
+
+        resumeTL = gsap.timeline({scrollTrigger: {trigger: '.for_resume'}});
+        resumeTL.from(resumeTextSplit.chars, {opacity: 0, duration: 0.1, stagger:0.05})
+                .from(".arrow-stick", {drawSVG: 0, duration: 0.5})
+                .from(".arrow-head", {drawSVG: "50% 50%", duration: 0.3})
+                .from(".resume_holder", {yPercent: 100, xPercent:-100, duration: 0.8, ease: "power4.out"})
+    
+        
+    })
+    
 })
+
+
 
