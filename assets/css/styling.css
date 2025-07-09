@@ -1,0 +1,186 @@
+ @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+ @import url('https://fonts.googleapis.com/css2?family=Square+Peg&display=swap');
+
+ @import "tailwindcss";
+
+
+
+
+@keyframes slide-in {
+  from {
+    transform: translateX(100%);
+  }
+  to 
+  {
+     transform: translateX(0%);
+     opacity: 1;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.95);
+    /* opacity: 1; */
+  }
+  50% {
+    transform: scale(1.15);
+    /* opacity: 0.8; */
+  }
+  100% {
+    transform: scale(0.95);
+    /* opacity: 1; */
+  }
+}
+
+/* @keyframes morph {
+  0% {
+    border-radius: 0;
+    clip-path: polygon(0 0, 100% 0%, 100% 100%, 0% 100%);
+  }
+  50% {
+    border-radius: 0;
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+  }
+   100% {
+    border-radius: 50%;
+     clip-path: polygon(0 0, 100% 0%, 100% 100%, 0% 100%);
+  }
+} */
+
+* {
+box-sizing: border-box;
+font-family: "Poppins", sans-serif;
+}
+
+
+/* .loading-element {
+  animation: morph 2s infinite ease;
+} */
+
+svg:hover .change-envelope-color {
+  fill: #F5F5F5;
+  stroke: #020403;
+}
+
+
+
+
+body {
+  color: #020403;
+  padding: 0;
+  margin: 0;
+}
+
+body::selection {
+  background: #D5D5D5;
+}
+
+.square-peg-regular {
+  font-family: "Square Peg", cursive;
+  font-style: normal;
+}
+
+a:hover {
+  color: #696969;
+}
+
+a > svg:hover {
+  transform: translateY(-2px);
+}
+
+a > svg:hover path {
+  stroke: #696969;
+}
+
+a:focus .change-envelope-color {
+  fill: #F5F5F5;
+  stroke: #020403;
+}
+
+button {
+  overflow: hidden;
+  transition: 3000ms;
+}
+button svg {
+   opacity: 0;
+}
+
+button:hover svg{
+   animation: slide-in 0.2s forwards 0.2s;
+  
+}
+
+nav {
+  transition: all 300ms ease-in-out;
+}
+
+.scroll-down nav {
+		transform: translate3d(0, -100%, 0);
+}
+
+.scroll-up nav{
+	background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(7px);
+  filter: drop-shadow(0 10px 5px rgba(170, 170, 170, 0.14));
+  /* border-bottom: 1px solid #d5d5d5b4; */
+}
+
+
+main {
+  max-width: 1440px;
+  margin-inline: auto;
+  padding: 30px;  
+}
+
+.box-holder {
+  width: 100vw;
+  min-height: 100vh;
+}
+
+.bg-boxes {
+  position: absolute;
+  left: -100%;
+  right: -100%;
+  margin: 0 auto;
+  width: fit-content;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  overflow-x: hidden;
+  height: 100%;
+}
+
+.bg-box {
+  width: calc(100vw / 7);
+  min-width: 143px; /*adjusted from 183px to make it look nice on mobile screens*/
+  flex: none;
+  border-right: 1px solid rgba(219, 219, 219, 0.4);
+  background-color: white;
+  /* background-color: blueviolet; */
+}
+
+
+.transition-300 {
+  transition: 300ms;
+}
+
+.about_me {
+ clip-path: polygon(0% 0%, 34% 0%, 56.75% 0%, 100% 0%, 100% 100%, 57% 100%, 57% 0%, 34% 0%, 34% 100%, 0% 100%);
+  background-color: transparent;
+}
+
+.mail-me-icon {
+   animation: pulse 2s infinite ease-in-out;
+}
+
+
+@media screen and (max-width: 1023px) {
+  .about_me {
+ clip-path: none;
+  background-color: white;
+}
+
+}
+
+
