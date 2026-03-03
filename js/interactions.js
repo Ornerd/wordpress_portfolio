@@ -101,7 +101,7 @@ document.getElementById("ham-menu").addEventListener("click", ()=> {
         document.body.style.height = '100vh';
         document.body.style.width = '100vw';
     }else {
-        navTL.timeScale(3).reverse(); //the 3 inside the timescale helps speed up the timeline by 3 times
+        navTL.timeScale(1).reverse(); //the 3 inside the timescale helps speed up the timeline by 3 times
         navIsOpen = false;
         document.body.style.overflow = '';  //removing the settings when the menu is closed.
         document.body.style.height = '';
